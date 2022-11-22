@@ -20,6 +20,7 @@ function App() {
     const [recordsPerPage] = useState(10);
     const [currentRecordsNew, setCurrentRecordsNew] = useState([]);
     const [currentOrder, setCurrentOrder] = useState(false);
+    const [filteredResults, setFilteredResults] = useState([]);
     useEffect(() => {
       axios.get(baseURL)
           .then(res => {
@@ -117,6 +118,24 @@ function App() {
    setCurrentOrder(order);
   }
   }
+  if(e == "date"){
+    if(currentOrder =='asc'){
+      let currentRecordsNew = [];
+      let order = 'desc'
+      currentRecordsNew = currentRecords.sort((a,b) => b.creationTimestamp?.localeCompare(a.creationTimestamp))
+     console.log('logIddataAsc--', currentRecordsNew);
+     setCurrentRecordsNew(currentRecordsNew);
+     setCurrentOrder(order);
+    }
+    else{
+    let currentRecordsNew = [];
+    let order = 'asc'
+    currentRecordsNew = currentRecords.sort((a,b) => a.creationTimestamp?.localeCompare(b.creationTimestamp))
+   console.log('logIddataAsc--', currentRecordsNew);
+   setCurrentRecordsNew(currentRecordsNew);
+   setCurrentOrder(order);
+  }
+  }
 }
 
 function handleorderReset(){
@@ -124,10 +143,15 @@ function handleorderReset(){
   setCurrentOrder(false);
 }
   return (
+    
     <div className="App">
       
-      <InputFilter data={currentRecordsNew.length > 0 ? currentRecordsNew : currentRecords}/>
-      <Loggertable1 data={currentRecordsNew.length > 0 ? currentRecordsNew : currentRecords} sort={event => handleSort(event)} order={currentOrder}/>
+      <InputFilter 
+      data={currentRecordsNew.length > 0 ? currentRecordsNew : currentRecords}
+      setFilteredResults={setFilteredResults}
+      />
+      <Loggertable1 data={currentRecordsNew.length > 0 ? currentRecordsNew : currentRecords} sort={event => handleSort(event)} order={currentOrder}
+      filteredResults={filteredResults}/>
       <Pagination
                 nPages={nPages}
                 currentPage={currentPage}

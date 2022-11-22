@@ -7,10 +7,14 @@ import Arrow from "./images/down-arrow.png"
 
 
 
-const Loggertable1 = ({data, props, sort, order}) => {
+const Loggertable1 = ({data, props, sort, order,filteredResults}) => {
 console.log('currentOrder', order);
+console.log('filteredResults', filteredResults);
+// console.log(data,"data-----")
     return (  
-        <table className="table">
+        <div class="continer-fluid">
+<div class="row">
+<Table  class="table table-striped">
             <thead>
                 <tr>
                 <th>Log id <span onClick={() => sort('logId')}>{order == 'asc' ?  <img src={Arrow} alt="sort" style={{
@@ -44,24 +48,51 @@ console.log('currentOrder', order);
                     height:"10px"
                 }} ></img>}</span></th>
                 <th>Action Details</th>
-                <th>Date: Time</th>
+                <th>Date: Time<span onClick={() => sort('date')}>{order == 'asc' ?  <img src={Arrow} alt="sort" style={{
+                    transform:"rotate(0deg)",
+                    height:"10px"
+                }} ></img> : <img src={Arrow} alt="sort" style={{
+                    transform:"rotate(180deg)",
+                    height:"10px"
+                }} ></img>}</span></th>
     
                 </tr>
             </thead>
             <tbody>
-                {data.map(info => (
+            {filteredResults.length > 0 ? (
+               
+                filteredResults.map((info => (
+                        
+                            <tr>
+                              <td>{info.logId}</td>
+                              <td>{info.applicationType == null ? "-/-"  : info.applicationType.replace( /_/g, " " )}</td>
+                        <td>{info.applicationId == null ? "-/-"  : info.applicationId}</td>
+                        
+                        <td>{info.actionType == null ? "-/-"  : info.actionType.replace( /_/g, " " )}</td>
+                        <td>-/-</td>
+                        <td>{info.creationTimestamp}</td>
+                            </tr>
+                        )))
+                ) : (
+                data.map(info => (
                     <tr>
                       <td>{info.logId}</td>
-                      <td>{info.applicationType}</td>
-                <td>{info.applicationId}</td>
+                      <td>{info.applicationType == null ? "-/-"  : info.applicationType.replace( /_/g, " " )}</td>
+                <td>{info.applicationId == null ? "-/-"  : info.applicationId}</td>
                 
-                <td>{info.actionType}</td>
+                <td>{info.actionType == null ? "-/-"  : info.actionType.replace( /_/g, " " )}</td>
                 <td>-/-</td>
                 <td>{info.creationTimestamp}</td>
                     </tr>
-                ))}
+                )))
+            }
+
             </tbody>
-        </table>
+        </Table>
+</div>
+
+        </div>
+        
       ) 
 
                 }
