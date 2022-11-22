@@ -6,8 +6,11 @@ import "react-datepicker/dist/react-datepicker.css";
 
 
 const InputFilter = ({data, props, sort, order,setFilteredResults}) => {
+  const [startDate, setStartDate] = useState(null);
+    const [endDate, setEndDate] = useState(null);
 
-  const [startDate, setStartDate] = useState(new Date());
+  const [startdate, setstartdate] = useState(new Date());
+  const [enddate, setenddate] = useState(new Date());
   const [searchInput, setSearchInput] = useState('');
 
   const [dateFilter, setDateFilter] = useState({
@@ -15,6 +18,38 @@ const InputFilter = ({data, props, sort, order,setFilteredResults}) => {
     endDate: null
   })
   
+    //called when a user selects filter start-date 
+    const handleStartDate = (date) => {
+      setStartDate(date);
+  }
+
+  //called when a user selects filter end-date 
+  const handleEndDate = (date) => {
+      setEndDate(date);
+  }
+
+  const handleFilterByDate = () => {
+    if (startdate && enddate) {
+      
+      const filtereddatedata = data.filter([startdate, enddate]);
+      console.log(filtereddatedata,"filtereddatedata");
+    }
+}
+
+
+  const applyFilter = () => {
+  
+    if (startdate && enddate ) {
+     
+        handleFilterByDate();
+        
+    }
+ 
+   
+    if (!startdate && enddate || startdate && !enddate) {
+        window.alert("Please Make sure you select start-date and end-date");
+    }
+}
   
   const searchItems = (searchValue) => {
     setSearchInput(searchValue)
@@ -35,15 +70,7 @@ const InputFilter = ({data, props, sort, order,setFilteredResults}) => {
 <div>
 
 <div class="container-fluid">
-  <div class="row">
-  <nav aria-label="breadcrumb">
-  <ol class="breadcrumb">
-    <li class="breadcrumb-item"><a href="#">Home</a></li>
-    <li class="breadcrumb-item"><a href="#">Library</a></li>
-    <li class="breadcrumb-item active" aria-current="page">Data</li>
-  </ol>
-</nav>
-  </div>
+  
       <div class="row">
         <div class="col-sm-2">
         <h2>
@@ -98,19 +125,20 @@ const InputFilter = ({data, props, sort, order,setFilteredResults}) => {
         </div>
         <div class="col-sm-2">
         <label>
-           <p>From Date</p>
-           <div>
-           <DatePicker selected={startDate} onChange={(date) => setStartDate(date)} />
-    </div>
+           
+           <p className="startDate">From: </p> <div className="datePickerLabel">{startDate ? startDate.toLocaleDateString("fr-CA") : null}</div>
+           <DatePicker selected={startdate} onChange={(date) => setstartdate(date)} handleDateChange={handleStartDate} date={startDate} />
+           
+   
          </label>
        
         </div>
         <div class="col-sm-2">
         <label>
-           <p>To Date</p>
-           <div>
-           <DatePicker selected={startDate} onChange={(date) => setStartDate(date)} />
-    </div>
+           
+           <p className="todate" >To:</p> <div className="datePickerLabel">{endDate ? endDate.toLocaleDateString("fr-CA") : null}</div>
+           <DatePicker selected={enddate} onChange={(date) => setenddate(date)} handleDateChange={handleEndDate} date={endDate} />
+    
          </label>
        
         </div>
@@ -124,8 +152,9 @@ const InputFilter = ({data, props, sort, order,setFilteredResults}) => {
         </div>
         <div class="col-sm-2">
         <label>
-           <p></p>
-           <button type="button" class="btn btn-primary">Submit</button>
+          
+           <button type="button" class="btn btn-primary" onClick={applyFilter} style={{
+                    marginTop:"38px"}}>Submit Logger</button>
          </label>
        
         </div>
