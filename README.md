@@ -2,9 +2,12 @@
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
+
 ## Available Scripts
 
 In the project directory, you can run:
+
+I have deployed the app on netlify please use this link = https://hilarious-llama-4b2d82.netlify.app/ Builds the app for production to the build folder.
 
 ### `npm start`
 
