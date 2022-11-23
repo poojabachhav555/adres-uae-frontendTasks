@@ -31,7 +31,10 @@ const InputFilter = ({data, props, sort, order,setFilteredResults}) => {
   const handleFilterByDate = () => {
     if (startdate && enddate) {
       
-      const filtereddatedata = data.filter([startdate, enddate]);
+      // const filtereddatedata = data.filter();
+      const filtereddatedata = data.filter(([startdate, enddate]) => {
+        return Object.values([startdate, enddate])
+    })
       console.log(filtereddatedata,"filtereddatedata");
     }
 }
@@ -88,38 +91,39 @@ const InputFilter = ({data, props, sort, order,setFilteredResults}) => {
         <div class="col-sm-2">
         <label>
            <p>Action Type</p>
-           <input name="action_type" onChange={(e) => searchItems(e.target.value)}
-                        />
-           {/* <select name="action_type" style={{
-                    paddingTop:"9px"}}>
+           {/* <input name="action_type" onChange={(e) => searchItems(e.target.value)} */}
+                        {/* /> */}
+           <select name="action_type" style={{
+                    paddingTop:"9px"}} onClick={(e) => searchItems(e.target.value)}>
   
                     <option></option>
                     {data.map(info => {
-                        return <option key={info.actionType == null ? "-/-"  : info.actionType.replace( /_/g, " " )} >
-                            {info.actionType == null ? "-/-"  : info.actionType.replace( /_/g, " " )}
+                        return <option value={info.actionType} >
+                            {info.actionType}
                         </option>
                     })}
                    
-                </select> */}
+                </select>
          </label>
        
         </div>
         <div class="col-sm-2">
         <label>
            <p>Application Type</p>
-           <input name="application_type" onChange={(e) => searchItems(e.target.value)}
-                        />
-           {/* <select name="application type" style={{
-                    paddingTop:"9px"}}>
+           {/* <input name="application_type" onChange={(e) => searchItems(e.target.value)}
+                        /> */}
+           <select name="application type" style={{
+                    paddingTop:"9px"}} onClick={(e) => searchItems(e.target.value)}>
   
                     <option></option>
                     {data.map(info => {
-                        return <option key={info.applicationType == null ?  "----": info.applicationType.replace( /_/g, " " )} >
-                            {info.applicationType == null ?  "----": info.applicationType.replace( /_/g, " " )}
+                        return <option value ={info.applicationType} >
+                          
+                        {info.applicationType} 
                         </option>
                     })}
                    
-                </select> */}
+                </select>
          </label>
        
         </div>
@@ -127,7 +131,7 @@ const InputFilter = ({data, props, sort, order,setFilteredResults}) => {
         <label>
            
            <p className="startDate">From: </p> <div className="datePickerLabel">{startDate ? startDate.toLocaleDateString("fr-CA") : null}</div>
-           <DatePicker selected={startdate} onChange={(date) => setstartdate(date)} handleDateChange={handleStartDate} date={startDate} />
+           <DatePicker selected={startdate} onChange={(date) => setstartdate(date)} onClick={(e) => searchItems(e.target.value)} date={startDate} />
            
    
          </label>
@@ -137,7 +141,7 @@ const InputFilter = ({data, props, sort, order,setFilteredResults}) => {
         <label>
            
            <p className="todate" >To:</p> <div className="datePickerLabel">{endDate ? endDate.toLocaleDateString("fr-CA") : null}</div>
-           <DatePicker selected={enddate} onChange={(date) => setenddate(date)} handleDateChange={handleEndDate} date={endDate} />
+           <DatePicker selected={enddate} onChange={(date) => setenddate(date)} onClick={(e) => searchItems(e.target.value)} date={endDate} />
     
          </label>
        
@@ -153,7 +157,7 @@ const InputFilter = ({data, props, sort, order,setFilteredResults}) => {
         <div class="col-sm-2">
         <label>
           
-           <button type="button" class="btn btn-primary" onClick={applyFilter} style={{
+           <button type="button" class="btn btn-primary" onClick={(e) => searchItems(e.target.value)} style={{
                     marginTop:"38px"}}>Submit Logger</button>
          </label>
        
