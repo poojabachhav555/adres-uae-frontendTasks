@@ -1,6 +1,7 @@
 # Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+I have deployed the app on netlify please use this link = https://tangerine-hotteok-0bd75f.netlify.app/ Builds the app for production to the build folder.
 
 ## Available Scripts
 
