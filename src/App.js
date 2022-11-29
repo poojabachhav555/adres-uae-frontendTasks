@@ -137,6 +137,15 @@ function App() {
   }
   }
 }
+const  filteredResultsHandle = (event) => {
+  console.log('filterDsts' , event)
+  const indexOfLastRecord = currentPage * recordsPerPage;
+  const indexOfFirstRecord = indexOfLastRecord - recordsPerPage;
+  const currentRecords = event.slice(indexOfFirstRecord, indexOfLastRecord);
+  const nPages = Math.ceil(event.length / recordsPerPage);
+  
+  setFilteredResults(currentRecords)
+}
 
 function handleorderReset(){
   setCurrentRecordsNew([]);
@@ -147,8 +156,9 @@ function handleorderReset(){
     <div className="App">
       
       <InputFilter 
-      data={currentRecordsNew.length > 0 ? currentRecordsNew : currentRecords}
-      setFilteredResults={setFilteredResults}
+      data={data.length > 0 ? data : data}
+      FilteredResultsHandle={(e) => filteredResultsHandle(e)}
+      filteredResultsNew={filteredResults}
       />
       <Loggertable1 data={currentRecordsNew.length > 0 ? currentRecordsNew : currentRecords} sort={event => handleSort(event)} order={currentOrder}
       filteredResults={filteredResults}/>
