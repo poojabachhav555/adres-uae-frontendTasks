@@ -4,9 +4,9 @@ import axios from 'axios';
 import './App.css';
 // import Loggertable from './Loggertable';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import Loggertable1 from './Loggertable1';
-import Pagination from './Pagination';
-import InputFilter from './InputFilter';
+import Loggertable1 from './components/Loggertable1';
+import Pagination from './components/Pagination';
+import InputFilter from './components/InputFilter';
 
 const baseURL = "https://run.mocky.io/v3/a2fbc23e-069e-4ba5-954c-cd910986f40f";
 
@@ -21,6 +21,7 @@ function App() {
     const [currentRecordsNew, setCurrentRecordsNew] = useState([]);
     const [currentOrder, setCurrentOrder] = useState(false);
     const [filteredResults, setFilteredResults] = useState([]);
+    const [allpages, setallpage] = useState(10);
     useEffect(() => {
       axios.get(baseURL)
           .then(res => {
@@ -40,6 +41,7 @@ function App() {
   const indexOfFirstRecord = indexOfLastRecord - recordsPerPage;
   const currentRecords = data.slice(indexOfFirstRecord, indexOfLastRecord);
   const nPages = Math.ceil(data.length / recordsPerPage);
+  // setnPages(nPages);
   
   //console.log('currentRecords==', currentRecords, nPages);
   //console.log(nPages);
@@ -49,18 +51,21 @@ function App() {
       if(currentOrder =='asc'){
         let currentRecordsNew = [];
         let order = 'desc'
-        currentRecordsNew = currentRecords.sort((a,b) =>  b.logId - a.logId)
+        currentRecordsNew = data.sort((a,b) =>  b.logId - a.logId)
        console.log('logIddataAsc--', currentRecordsNew);
-       setCurrentRecordsNew(currentRecordsNew);
+      //  setCurrentRecordsNew(currentRecordsNew);
        setCurrentOrder(order);
+       filteredResultsHandle(currentRecordsNew);
       }
       else{
       let currentRecordsNew = [];
       let order = 'asc'
-      currentRecordsNew = currentRecords.sort((a,b) => a.logId - b.logId)
+      currentRecordsNew = data.sort((a,b) => a.logId - b.logId)
      console.log('logIddataAsc--', currentRecordsNew);
      setCurrentRecordsNew(currentRecordsNew);
      setCurrentOrder(order);
+     filteredResultsHandle(currentRecordsNew);
+
     }
   }
 
@@ -68,72 +73,88 @@ function App() {
     if(currentOrder =='asc'){
       let currentRecordsNew = [];
       let order = 'desc'
-      currentRecordsNew = currentRecords.sort((a,b) =>  b.applicationId - a.applicationId)
+      currentRecordsNew = data.sort((a,b) =>  b.applicationId - a.applicationId)
      console.log('logIddataAsc--', currentRecordsNew);
      setCurrentRecordsNew(currentRecordsNew);
      setCurrentOrder(order);
+     filteredResultsHandle(currentRecordsNew);
+
     }
     else{
     let currentRecordsNew = [];
     let order = 'asc'
-    currentRecordsNew = currentRecords.sort((a,b) => a.applicationId - b.applicationId)
+    currentRecordsNew = data.sort((a,b) => a.applicationId - b.applicationId)
    console.log('logIddataAsc--', currentRecordsNew);
    setCurrentRecordsNew(currentRecordsNew);
    setCurrentOrder(order);
+   filteredResultsHandle(currentRecordsNew);
+
   }
 }
   if(e == "appType"){
     if(currentOrder =='asc'){
       let currentRecordsNew = [];
       let order = 'desc'
-      currentRecordsNew = currentRecords.sort((a,b) => b.applicationType?.localeCompare(a.applicationType))
+      currentRecordsNew = data.sort((a,b) => b.applicationType?.localeCompare(a.applicationType))
      console.log('logIddataAsc--', currentRecordsNew);
      setCurrentRecordsNew(currentRecordsNew);
      setCurrentOrder(order);
+     filteredResultsHandle(currentRecordsNew);
+
     }
     else{
     let currentRecordsNew = [];
     let order = 'asc'
-    currentRecordsNew = currentRecords.sort((a,b) => a.applicationType?.localeCompare(b.applicationType))
+    currentRecordsNew = data.sort((a,b) => a.applicationType?.localeCompare(b.applicationType))
    console.log('logIddataAsc--', currentRecordsNew);
    setCurrentRecordsNew(currentRecordsNew);
    setCurrentOrder(order);
+   filteredResultsHandle(currentRecordsNew);
+
   }
   }
   if(e == "action"){
     if(currentOrder =='asc'){
       let currentRecordsNew = [];
       let order = 'desc'
-      currentRecordsNew = currentRecords.sort((a,b) => b.actionType?.localeCompare(a.actionType))
+      currentRecordsNew = data.sort((a,b) => b.actionType?.localeCompare(a.actionType))
      console.log('logIddataAsc--', currentRecordsNew);
      setCurrentRecordsNew(currentRecordsNew);
      setCurrentOrder(order);
+     filteredResultsHandle(currentRecordsNew);
+
     }
     else{
     let currentRecordsNew = [];
     let order = 'asc'
-    currentRecordsNew = currentRecords.sort((a,b) => a.actionType?.localeCompare(b.actionType))
+    currentRecordsNew = data.sort((a,b) => a.actionType?.localeCompare(b.actionType))
    console.log('logIddataAsc--', currentRecordsNew);
    setCurrentRecordsNew(currentRecordsNew);
    setCurrentOrder(order);
+   filteredResultsHandle(currentRecordsNew);
+
   }
   }
   if(e == "date"){
     if(currentOrder =='asc'){
       let currentRecordsNew = [];
       let order = 'desc'
-      currentRecordsNew = currentRecords.sort((a,b) => b.creationTimestamp?.localeCompare(a.creationTimestamp))
+      currentRecordsNew = data.sort((a,b) => b.creationTimestamp?.localeCompare(a.creationTimestamp))
      console.log('logIddataAsc--', currentRecordsNew);
      setCurrentRecordsNew(currentRecordsNew);
      setCurrentOrder(order);
+     filteredResultsHandle(currentRecordsNew);
+
     }
     else{
     let currentRecordsNew = [];
     let order = 'asc'
-    currentRecordsNew = currentRecords.sort((a,b) => a.creationTimestamp?.localeCompare(b.creationTimestamp))
+    currentRecordsNew = data.sort((a,b) => a.creationTimestamp?.localeCompare(b.creationTimestamp))
    console.log('logIddataAsc--', currentRecordsNew);
    setCurrentRecordsNew(currentRecordsNew);
    setCurrentOrder(order);
+   filteredResultsHandle(currentRecordsNew);
+
   }
   }
 }
@@ -143,27 +164,34 @@ const  filteredResultsHandle = (event) => {
   const indexOfFirstRecord = indexOfLastRecord - recordsPerPage;
   const currentRecords = event.slice(indexOfFirstRecord, indexOfLastRecord);
   const nPages = Math.ceil(event.length / recordsPerPage);
-  
-  setFilteredResults(currentRecords)
+  setallpage(nPages);
+
+  // console.log(currentRecords,"currentRecords");
+  setFilteredResults(event);
+  console.log(nPages,"nPages")
 }
 
 function handleorderReset(){
   setCurrentRecordsNew([]);
   setCurrentOrder(false);
 }
+const prefilterresultHandle = (event) => {
+  console.log('filterDsts' , event)
+}
   return (
     
     <div className="App">
       
-      <InputFilter 
+      <InputFilter currentPage
       data={data.length > 0 ? data : data}
       FilteredResultsHandle={(e) => filteredResultsHandle(e)}
       filteredResultsNew={filteredResults}
       />
       <Loggertable1 data={currentRecordsNew.length > 0 ? currentRecordsNew : currentRecords} sort={event => handleSort(event)} order={currentOrder}
-      filteredResults={filteredResults}/>
+      filteredResults={filteredResults}
+      currentPage={currentPage}/>
       <Pagination
-                nPages={nPages}
+                nPages={allpages}
                 currentPage={currentPage}
                 setCurrentPage={setCurrentPage}
                 orderReset={() => handleorderReset()}

@@ -14,8 +14,8 @@ const InputFilter = ({data, props, sort, order,setFilteredResults, FilteredResul
     const [applicationtype, setapllicationtype] = useState('');
     const [applicationid, setapllicationid] = useState('');
 
-  const [startdate, setstartdate] = useState(new Date());
-  const [enddate, setenddate] = useState(new Date());
+  const [startdate, setstartdate] = useState();
+  const [enddate, setenddate] = useState();
   let navigate = useNavigate();
   let currentPath  = useLocation();
   let path = currentPath.search;
@@ -26,7 +26,7 @@ const InputFilter = ({data, props, sort, order,setFilteredResults, FilteredResul
     if(query.get('enddate'))
     setenddate(new Date(query.get('enddate')));  
   },[path]);
-
+console.log("inputfilterdata",data);
 
 //   const searchItems = (searchvalue) => {
 //     if (searchvalue !== '') {
@@ -70,7 +70,7 @@ const handleNavigation = (event) => {
         urlStr = urlStr+"&startdate="+getNewDate(startdate)+"&enddate="+getNewDate(enddate);
   }
   handleSubmit();
-  navigate("/logger"+urlStr);
+  navigate(""+urlStr);
 }
 
 
@@ -125,29 +125,94 @@ console.log("in submit",actionType,applicationtype,fromdate,todate,applicationid
 //     console.log(filteredData,"filterdata");
 //     FilteredResultsHandle(filteredData)
 // }
-var filteredData=[];
-if(actionType !== '' || applicationtype !== ''){
+var filteredData=new Object();
   let filterData = [];
-  filterData =[actionType ,applicationtype];
-  console.log('filterData',filterData)
-  if(actionType !== '' && applicationtype !== ''){
-    console.log('data=========',data)
-     data.filter((item) => {
-      if((filterData.includes(item.applicationType )) && (filterData.includes(item.actionType))){
-        console.log('item',item);
-        filteredData.push(item);
-           
-
-
-      }
-      FilteredResultsHandle(filteredData);
-              
-          })
+  if(actionType != "")
+  {
+    filterData["actionType"] = actionType;
   }
+  if(applicationtype != "")
+  {
+    filterData["applicationType"] = applicationtype;
+  }
+  if(fromdate != "" && fromdate!="Invalid Date")
+  {
+    filterData["fromDate"] = fromdate;
+  }
+  if(todate != "" && todate!="Invalid Date")
+  {
+    filterData["toDate"] = todate;
+  }
+  if(applicationid != "")
+  {
+    filterData["applicationId"] = applicationid;
+  }  
+  // if(applicationtype != "")
+  //   filterData["applicationType"] = applicationtype;
+  // if(fromdate != "")
+  //   filterData["fromDate"] = fromdate;
+  // if(todate != "")
+  //   filterData["toDate"] = todate;
+  // if(applicationid != "")
+  //   filterData["applicationId"] = applicationid;
 
-  console.log(filterData,"filterData====")
+  filteredData = data.filter((item) => {
+    let formLength = 0;
+    let matchItem = 0;
+    for (var key in filterData){
+            console.log("key: "+key+" val "+filterData[key]);
+            //return Object.values(item).join('').toLowerCase().includes(avalue.toLowerCase())
+            if(filterData[key])
+            {
+                formLength++;    
 
-}
+                if(isNaN(filterData[key])) //filtering alphanumeric
+                {
+                  if(item[key])
+                  {
+                    if((item[key].toLowerCase()).toString().includes(filterData[key].toLowerCase()))
+                    {
+                      matchItem++;
+                    }
+                  }
+                  
+                }
+                else {   //filtering numeric
+                  if(item[key])
+                  {
+                    if((item[key]).toString().includes(filterData[key]))
+                    {
+                      matchItem++;
+                    }
+                  }
+
+                }
+                if(key === "fromDate" || key === 'toDate') //code to handle start & end date filterring
+                {
+                  let newDt = getNewDate(item['creationTimestamp']);
+                  let fromNewDt = filterData['fromDate'];
+                  let toNewDt = filterData['toDate'];
+                  if(newDt >= fromNewDt && newDt <= toNewDt)
+                  {
+                    matchItem++;
+                  }
+                      
+                } 
+            }
+          }
+          console.log(matchItem+"--"+formLength);
+          if (matchItem === formLength) 
+          {
+            return item;
+           
+          }   
+         
+  
+  });
+
+  FilteredResultsHandle(filteredData)
+  // console.log("filterData====",filteredData)
+
 
   
 
@@ -197,7 +262,7 @@ if(actionType !== '' || applicationtype !== ''){
            <p>Application Type</p>
            {/* <input name="application_type" onChange={(e) => searchItems(e.target.value)}
                         /> */}
-           <select name="application type" style={{
+           <select name="application_type" style={{
                     paddingTop:"9px"}} onClick={(e) => handleChangeapllicationtype(e.target.value)}>
   
   <option />
