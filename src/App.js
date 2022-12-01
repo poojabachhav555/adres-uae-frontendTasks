@@ -1,4 +1,3 @@
-import logo from './logo.svg';
 import React, { useState, useEffect } from 'react'
 import axios from 'axios';
 import './App.css';
@@ -34,7 +33,7 @@ function App() {
               })
   }, [])
 
-  console.log("data--",data);
+  // console.log("data--",data);
   // console.log(recordsPerPage);
   
   const indexOfLastRecord = currentPage * recordsPerPage;

@@ -11,12 +11,11 @@ const Loggertable1 = ({data, props, sort, order,filteredResults,currentPage}) =>
 
     const rowsPerPage=10;
     const page=currentPage-1;
-console.log(filteredResults,"filteredResults");
     return (  
-        <div class="container-fluid">
+        <div className="container-fluid">
            
-<div class="row">
-<Table  class="table table-striped">
+<div className="row">
+<Table  className="table table-striped">
             <thead>
                 <tr>
                 <th>Log id <span onClick={() => sort('logId')}>{order == 'asc' ?  <img src={Arrow} alt="sort" style={{
@@ -61,7 +60,7 @@ console.log(filteredResults,"filteredResults");
                 </tr>
             </thead>
             <tbody>
-            {filteredResults.length > 0 ? (
+            {filteredResults != undefined && filteredResults.length > 0 ? (
                
                 filteredResults.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((info => (
                         
@@ -76,7 +75,7 @@ console.log(filteredResults,"filteredResults");
                             </tr>
                         )))
                 ) : (
-                data.map(info => (
+                data?.map(info => (
                     <tr>
                       <td>{info.logId}</td>
                       <td>{info.applicationType == null ? "-/-"  : info.applicationType.replace( /_/g, " " )}</td>
