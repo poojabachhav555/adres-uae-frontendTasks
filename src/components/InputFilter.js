@@ -33,6 +33,7 @@ const InputFilter = ({data, props, sort, order,setFilteredResults, FilteredResul
       let date = new Date(dt);
       let month = parseInt(date.getMonth())+parseInt(1);
       let newDt = date.getFullYear()+"-"+month+"-"+date.getDate();
+      // let newDt = date.getDate()+"/"+month+"/"+date.getFullYear();
       return newDt;
     }
 const handleNavigation = (event) => {
@@ -88,10 +89,25 @@ const handleChangeapllicationtype = (searchvalue) => {
 const handleChangeapllicationid= (searchvalue) => {
   setapllicationid(searchvalue)
 }
+
+function formatDate(date) {
+  var d = new Date(date),
+      month = '' + (d.getMonth() + 1),
+      day = '' + d.getDate(),
+      year = d.getFullYear();
+
+  if (month.length < 2) 
+      month = '0' + month;
+  if (day.length < 2) 
+      day = '0' + day;
+
+  return [year, month, day].join('-');
+}
   
   const handleSubmit = () => {
-    var fromdate = new Date(startdate).toLocaleString()
-    var todate = new Date(enddate).toLocaleString()
+    var fromdate = formatDate(startdate)
+    var todate = formatDate(enddate)    
+   
 
 var filteredData=new Object();
   let filterData = [];
@@ -148,8 +164,10 @@ var filteredData=new Object();
                   }
 
                 }
+            
                 if(key === "fromDate" || key === 'toDate') //code to handle start & end date filterring
                 {
+                 
                   let newDt = getNewDate(item['creationTimestamp']);
                   let fromNewDt = filterData['fromDate'];
                   let toNewDt = filterData['toDate'];
@@ -258,7 +276,7 @@ var filteredData=new Object();
         <label>
            <p>Application ID</p>
            <input name="application_id"
-                        onKeyPress={(e) => handleChangeapllicationid(e.target.value)} placeholder="Enter Application Id"/>
+                        onChange={(e) => handleChangeapllicationid(e.target.value)} placeholder="Enter Application Id"/>
          </label>
        
         </div>

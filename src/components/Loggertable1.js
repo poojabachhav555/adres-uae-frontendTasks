@@ -62,28 +62,28 @@ const Loggertable1 = ({data, props, sort, order,filteredResults,currentPage}) =>
             <tbody>
             {filteredResults != undefined && filteredResults.length > 0 ? (
                
-                filteredResults.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((info => (
+                filteredResults.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map(((i,info) => (
                         
-                            <tr>
-                              <td>{info.logId}</td>
-                              <td>{info.applicationType == null ? "-/-"  : info.applicationType.replace( /_/g, " " )}</td>
-                        <td>{info.applicationId == null ? "-/-"  : info.applicationId}</td>
+                            <tr key={info}>
+                              <td>{i.logId}</td>
+                              <td>{i.applicationType == null ? "-/-"  : i.applicationType.replace( /_/g, " " )}</td>
+                        <td>{i.applicationId == null ? "-/-"  : i.applicationId}</td>
                         
-                        <td>{info.actionType == null ? "-/-"  : info.actionType.replace( /_/g, " " )}</td>
+                        <td>{i.actionType == null ? "-/-"  : i.actionType.replace( /_/g, " " )}</td>
                         <td>-/-</td>
-                        <td>{info.creationTimestamp}</td>
+                            <td>{i.creationTimestamp}</td>
                             </tr>
                         )))
                 ) : (
-                data?.map(info => (
-                    <tr>
-                      <td>{info.logId}</td>
-                      <td>{info.applicationType == null ? "-/-"  : info.applicationType.replace( /_/g, " " )}</td>
-                <td>{info.applicationId == null ? "-/-"  : info.applicationId}</td>
+                data?.map((i,info) => (
+                    <tr key={info}>
+                      <td>{i.logId}</td>
+                      <td>{i.applicationType == null ? "-/-"  : i.applicationType.replace( /_/g, " " )}</td>
+                <td>{i.applicationId == null ? "-/-"  : i.applicationId}</td>
                 
-                <td>{info.actionType == null ? "-/-"  : info.actionType.replace( /_/g, " " )}</td>
+                <td>{i.actionType == null ? "-/-"  : i.actionType.replace( /_/g, " " )}</td>
                 <td>-/-</td>
-                <td>{info.creationTimestamp}</td>
+                <td>{i.creationTimestamp}</td>
                     </tr>
                 )))
             }
